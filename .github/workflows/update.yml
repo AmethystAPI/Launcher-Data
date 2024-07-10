@@ -1,0 +1,28 @@
+name: Update
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Check for updates every half hour between 15:00 UTC and 19:00 UTC on Tuesday through Thursday
+    - cron: '0,30 15-19 * * 2-4'
+    # Check for updates every hour between 17:00 UTC and 19:00 UTC on Monday and Friday
+    - cron: '0 17-19 * * 1,5'
+    # Check for updates at 19:00 UTC once every Saturday and Sunday
+    - cron: '0 19 * * 0,6'
+
+env:
+  COOKIE: 'ATVNqfLH9EAdrZGpzH5KSedbV0mM00ZPuYIvvb8d+YLOu4xPuynh3/8cmhn+bNPsSRyOsjM5eTPbCuDvv4so30O4b85IqYLbxb7St1B2evYAszI0h0YsEqz4b0aDVW69M2NCriV44/HC6wTcVs7gK2GR7qdvvJXfixr9UxUyGBpThUpVLCVSa8i3LMUpvS7CXbWhg1rWmttDRfTENQ63U0rIQ3lJeafoXKWBeXRABby07wBbx0x+Wc2iNcIwaJR9VA=='
+
+jobs:
+  check-for-update:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: python update.py
